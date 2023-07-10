@@ -1,0 +1,120 @@
+<div class="row mt-2">
+  <div class="mb-3 col-6">
+    <label for="" class="form-label">Category</label>
+    <select
+      class="form-control"
+      name="cat"
+      id="prdCat"
+      [(ngModel)]="selectedCatId"
+      title="Select a Category"
+    >
+      <option value="" disabled>Select a Category</option>
+      <option value="0" selected>All</option>
+      <option *ngFor="let cat of catList" [value]="cat.id">
+        {{ cat.name }}
+      </option>
+    </select>
+  </div>
+  <div class="mb-3 col-6">
+    <label for="" class="form-label">Search by Name :</label>
+    <input
+      #clinetNameInput
+      [(ngModel)]="searchInput"
+      type="text"
+      class="form-control"
+    />
+  </div>
+</div>
+<hr />
+<app-product-list
+  [sentCatId]="selectedCatId"
+  [sentSearchInput]="searchInput"
+  (totalpriceChanged)="OnTotalPriceChanges($event)"
+  (productAdded)="onProductAddedToCart($event)"
+></app-product-list>
+<hr />
+<div id="CartBody">
+  <div class="card">
+    <div class="row">
+      <div class="col-md-8 cart">
+        <div class="border-bottom">
+          <div class="row">
+            <div class="col">
+              <h4><b>Shopping Cart</b></h4>
+            </div>
+            <div class="col align-self-center text-right text-muted">
+              Product name
+            </div>
+            <div
+              class="col text-center align-self-center text-right text-muted"
+            >
+              Quentity
+            </div>
+            <div
+              class="col text-center align-self-center text-right text-muted"
+            >
+              Price
+            </div>
+          </div>
+        </div>
+        <div *ngFor="let item of productsoncart" class="row border-bottom">
+          <div class="row main align-items-center">
+            <div class="col">
+              <img class="img-fluid" [src]="item.imgUrl" alt="Product Image" />
+            </div>
+            <div class="col">
+              <div class="row">{{ item.name }}</div>
+              <div class="row text-muted">
+                {{ item.categoryName }}
+              </div>
+            </div>
+            <div class="col text-center">
+              {{ item.quantityToAdd }}
+            </div>
+            <div class="col text-center">
+              {{ item.price * item.quantityToAdd }}
+              <!-- <a
+                asp-controller="Product"
+                asp-action="RemoveFromCart"
+                asp-route-id="@orderProduct.Product.Id"
+                ><span class="close">✕</span></a
+              > -->
+            </div>
+          </div>
+        </div>
+        <div class="back-to-shop">
+          <a asp-controller="Product" asp-action="Index"
+            >←<span class="text-muted">Back to shop</span></a
+          >
+        </div>
+      </div>
+      <div class="col-md-4 summary">
+        <div>
+          <h5><b>Summary</b></h5>
+        </div>
+        <hr />
+        <div class="row">
+          <div class="col" style="padding-left: 0">
+            ITEMS {{ productsoncart.length }}
+          </div>
+          <div class="col text-right">{{ recivedtotalcartprice }}</div>
+        </div>
+        <div
+          class="row"
+          style="border-top: 1px solid rgba(0, 0, 0, 0.1); padding: 2vh 0"
+        >
+          <div class="col">TOTAL PRICE</div>
+          <div class="col text-right">{{ recivedtotalcartprice }}</div>
+        </div>
+        <a (click)="checkOutCart()" class="btn btn-sm btn-outline-success"
+          >Checkout</a
+        >
+        <!-- <button class="btn">CHECKOUT</button> -->
+      </div>
+    </div>
+  </div>
+</div>
+<!-- <hr />
+<h1 [hidden]="recivedtotalcartprice == 0" style="padding-left: 35%">
+  Total price in cart : {{ recivedtotalcartprice }}
+</h1> -->

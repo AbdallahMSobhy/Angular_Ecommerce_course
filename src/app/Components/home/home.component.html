@@ -1,0 +1,19 @@
+<div class="card text-center">
+  <div class="card-body">
+    <img *ngIf="isImageShowen" [src]="storeInfo.imgUrl" alt="storeimg" />
+    <h2 class="card-title">{{ storeInfo.name }}</h2>
+    <button type="button" class="btn btn-primary" (click)="toggleImage()">
+      toogle Image
+    </button>
+    <p class="card-text">Branches:</p>
+    <ul class="list-group list-group-flush">
+      <li
+        class="list-group-item"
+        style="width: 100px"
+        *ngFor="let item of storeInfo.branches"
+      >
+        {{ item }}
+      </li>
+    </ul>
+  </div>
+</div>

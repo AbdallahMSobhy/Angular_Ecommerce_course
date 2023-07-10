@@ -1,0 +1,111 @@
+<!-- <h1 [class.d-none]="totalcartprice == 0" style="padding-left: 35%"> -->
+<!-- <h1 *ngIf="totalcartprice != 0" style="padding-left: 35%"> -->
+<!-- <div class="mb-3">
+  <label for="" class="form-label">Category</label>
+  <select
+    class="form-control"
+    name="cat"
+    id="prdCat"
+    [(ngModel)]="selectedCatId"
+    (change)="filterProductsByCatID()"
+    title="Select a Category"
+  >
+    <option value="" selected disabled>Select a Category</option>
+    <option *ngFor="let cat of catList" [value]="cat.id">{{ cat.name }}</option>
+  </select>
+</div> -->
+<!-- <h1>{{ selectedCatId }}</h1> -->
+<!-- <h1 [hidden]="totalcartprice == 0" style="padding-left: 35%">
+  Total price in cart : {{ totalcartprice }}
+</h1> -->
+<div class="row row-cols-1 row-cols-md-4 m-3 text-center">
+  <div
+    *ngFor="let item of prodListOfCat; let i = index; trackBy: trackByPrdId"
+    class="col"
+  >
+    <div class="card mb-4 rounded-3 shadow-sm">
+      <div class="card-header py-3">
+        <h4 class="my-0 fw-normal">{{ i + 1 }} - {{ item.name }}</h4>
+      </div>
+      <div class="card-body">
+        <img
+          LightBox="#0dcaf0"
+          defualtcolor="green"
+          [src]="item.imgUrl"
+          class="img-thumbnail"
+          alt="Product Image"
+        />
+        <br />
+        <!-- <h4 class="card-title pricing-card-title">
+          EGP {{ item.price
+          }}<small class="text-body-secondary fw-light">.00</small>
+        </h4> -->
+        <h4 class="card-title pricing-card-title">
+          {{ item.price | currency : "USD" }}
+        </h4>
+        <h4 class="card-title pricing-card-title">
+          {{ item.price | USDtoEGP | currency : "EGP" }}
+        </h4>
+        <!-- <h5 class="my-0 fw-normal">Product Id : {{ item.id }}</h5> -->
+        <h5 class="my-0 fw-normal">Quantity : {{ item.quantity }}</h5>
+        <br />
+        <!-- <div
+          *ngIf="item.quantity != 0; else ngTempalte"
+          class="form-outline d-flex"
+          style="width: 16rem"
+        >
+          <input
+            #Quntityreq
+            step="1"
+            type="number"
+            id="typeNumber"
+            class="mt-2 form-control"
+            style="height: 40px"
+            placeholder="Quantity"
+          />
+          <button
+            (click)="addToCart(item.price, Quntityreq.value)"
+            type="button"
+            class="w-100 mt-2 btn btn-lg btn btn btn-outline-warning"
+          >
+            Buy
+          </button>
+        </div>
+        <ng-template #ngTempalte>Out of stock</ng-template> -->
+        <ng-container [ngSwitch]="item.quantity">
+          <div *ngSwitchCase="0">Out of stock</div>
+          <div
+            *ngSwitchDefault=""
+            class="form-outline d-flex"
+            style="width: 16rem"
+          >
+            <input
+              #Quntityreq
+              step="1"
+              type="number"
+              id="typeNumber"
+              class="mt-2 form-control"
+              style="height: 40px"
+              placeholder="Quantity"
+            />
+            <!-- (click)="addToCart(item.price, Quntityreq.value)" -->
+            <button
+              (click)="addToCart(item, Quntityreq.value)"
+              type="button"
+              class="w-100 mt-2 btn btn-lg btn btn btn-outline-warning"
+            >
+              Buy
+            </button>
+          </div>
+        </ng-container>
+        <button
+          onclick="location.href='#'"
+          type="button"
+          class="w-100 mt-2 btn btn-lg btn btn btn-outline-info"
+        >
+          More Details
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
